@@ -1,4 +1,8 @@
 
+// source code from website: https://e2e.ti.com/support/microcontrollers/msp430/f/166/t/690756?Compiler-MSP432P401R-UART-in-MSP432
+// by user: armondoferr
+
+
 #include "msp.h"
 #include "uart.h"
 
