@@ -125,7 +125,9 @@ void main(void)
     P1->IES |= BIT1;
     P1->IFG = 0;
     P1->IE  |= BIT1;
-
+    P3->DIR |= BIT6; // Sets P3.6 as an output for laser
+	
+	
     //enable interrupts
     NVIC_EnableIRQ(PORT1_IRQn);
 	__enable_irq();
@@ -252,7 +254,6 @@ void main(void)
                 }
             else if (target == 1) // target found
                 {
-		    	P3->DIR |= BIT6; // Sets P3.6 as an output
 		   	toggle_laser(1);
 			for (delay = 0; delay < 10000; delay ++); // stops turret to fire laser
 		    	toggle_laser(0);
