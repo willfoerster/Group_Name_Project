@@ -252,8 +252,10 @@ void main(void)
                 }
             else if (target == 1) // target found
                 {
-                    // put code for lazer activation
-                    for (delay = 0; delay < 10000; delay ++); // stops turret to fire laser
+		    	P3->DIR |= BIT6; // Sets P3.6 as an output
+		   	toggle_laser(1);
+			for (delay = 0; delay < 10000; delay ++); // stops turret to fire laser
+		    	toggle_laser(0);
                 }
 
             }
@@ -273,8 +275,14 @@ void main(void)
     }
 
 }
-
-
+// Sending true sets the pin to high, sending false toggles the pin
+void toggle_laser(bool x)
+{
+    if(x)
+	P3->OUT |= BIT6; // Sets P3.6 to HIGH
+    else
+	P3->OUT ^= BIT6; // Toggles P3.6
+}
 /* Port1 ISR */
 void PORT1_IRQHandler(void){
     volatile uint32_t j;
