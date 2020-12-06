@@ -9,6 +9,7 @@
 // Switch out the commented line below or change the baud rate if it is different from the Raspberry Pi
 //#define BAUD_RATE 9600
 #define BAUD_RATE 115200
+//#define LED_BUILTIN 2
 
 // This is the array that the received string is stored
 char inBuffer[32];
@@ -36,12 +37,15 @@ void handle_input(void){
     // Incriment counter
     i++;
   }
+  Serial.write("Echo: ");
+  Serial.write(inBuffer);
+  Serial.write('\n');
   // If the second char is n or N and the length is 2, turn on the LED
-  if((inBuffer[1] == 'n' || inBuffer[1] == 'N') && i == 2){
+  if((inBuffer[1] == 'n' || inBuffer[1] == 'N')){
     digitalWrite(LED_BUILTIN, HIGH);
   }
   // If the second char is f or F and the length is 3, turn off the LED
-  if((inBuffer[1] == 'f' || inBuffer[1] == 'F') && i == 3){
+  if((inBuffer[1] == 'f' || inBuffer[1] == 'F')){
     digitalWrite(LED_BUILTIN, LOW);
   }
   // String comparison also works, but in the interest of time this is what I put together to test
