@@ -103,11 +103,16 @@
 #include "servo.h"
 #include "stIMU.h"
 #include "stdio.h"
+#include "uart.h"
+
 
 
 
 volatile int state = 0;
 
+
+
+/* EUSCI A0 UART ISR - Echoes data back to PC host */
 
 void main(void)
  {
@@ -145,8 +150,15 @@ void main(void)
 
     int delay;
     int angle;
-    int target = 0;
+    int target;
     int stepcount = 0;
+
+
+    uart_cs();
+    confg_uart_wired();
+    uart_init();
+    uart_get();
+    EUSCIA2_IRQHandler(target);
 
     //Forward movement
     while(1)
@@ -240,9 +252,9 @@ void main(void)
                 }
             else if (target == 1) // target found
                 {
+                    // put code for lazer activation
                     for (delay = 0; delay < 10000; delay ++); // stops turret to fire laser
                 }
-
 
             }
         else if (state == 1)
@@ -277,75 +289,3 @@ void PORT1_IRQHandler(void){
     P1->IFG &= ~BIT1;
 }
 
-/*servo_write(URL,90); //90 Degrees represents the Neutral Position
-        servo_write(LRL,90);
-        servo_write(URA,90);
-        servo_write(LRA,90);
-        servo_write(ULL,90);
-        servo_write(LLL,90);
-        servo_write(ULA,90);
-        servo_write(LLA,90);*/
-
-
-
-/*
-                for(angle = 1; angle < 180; angle = angle + 1)
-                 {
-                    servo_write(URL,angle); //Because the Orientations are opposite of the other servos,
-                    servo_write(LRL,angle); //the direction the servo must move to stand up is also opposote
-                    servo_write(URA,angle);
-                    servo_write(LRA,angle);
-                    servo_write(ULL,angle);
-                    servo_write(LLL,angle);
-                    servo_write(ULA,angle); //See Above Comment
-                    servo_write(LLA,angle);
-                 }*/
-            /*
-                servo_write(URL,40);
-                for(angle = 1; angle < 40; angle = angle + 1)
-                 {
-                    for (delay = 0; delay < 2000; delay ++);
-                    servo_write(LRL,60 + angle);
-                 }
-                servo_write(URL,30);
-                servo_write(URA,140);
-                for(angle = 1; angle < 40; angle = angle + 1)
-                 {
-                    for (delay = 0; delay < 2000; delay ++);
-                    servo_write(LRA,120 + angle);
-                 }
-                servo_write(URA,150);*/
-      /*servo_write(URL,90); //90 Degrees represents the Neutral Position
-        servo_write(LRL,90);
-        servo_write(URA,90);
-        servo_write(LRA,90);
-        servo_write(ULL,90);
-        servo_write(LLL,90);
-        servo_write(ULA,90);
-        servo_write(LLA,90);
-
-        servo_write(URL,90); //90 Degrees represents the Neutral Position
-        servo_write(LRL,90);
-        servo_write(URA,90);
-        servo_write(LRA,90);
-        servo_write(ULL,90);
-        servo_write(LLL,90);
-        servo_write(ULA,90);
-        servo_write(LLA,90);
-
-        servo_write(URL,90-45); //Because the Orientations are opposite of the other servos,
-        servo_write(LRL,90-45); //the direction the servo must move to stand up is also opposote
-        servo_write(URA,90+45);
-        servo_write(LRA,90+45);
-        servo_write(ULL,90+45);
-        servo_write(LLL,90+45);
-        servo_write(ULA,90-45); //See Above Comment
-        servo_write(LLA,90-45);
-
-        */
-/*
-    int16_t mx, my, mz;
-    uint8_t data;
-    int i;
-
-    }*/
